@@ -313,6 +313,10 @@ class GraphCtrl extends MetricsPanelCtrl {
     fileExport.exportSeriesListToCsvColumns(this.seriesList);
   }
 
+  expandTemplateVariable(variable) {
+    return this.templateSrv.replace(variable, this.panel.scopedVars);
+  }
+
 }
 
 export {GraphCtrl, GraphCtrl as PanelCtrl}

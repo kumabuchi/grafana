@@ -167,8 +167,8 @@ coreModule.directive('grafanaGraph', function($rootScope, timeSrv) {
         for (var i = 0; i < yaxis.length; i++) {
           var axis = yaxis[i];
           var panelOptions = panel.yaxes[i];
-          axis.options.max = panelOptions.max;
-          axis.options.min = panelOptions.min;
+          axis.options.max = panelOptions.max !== null ? _.toNumber(ctrl.expandTemplateVariable(panelOptions.max)) : null;
+          axis.options.min = panelOptions.min !== null ? _.toNumber(ctrl.expandTemplateVariable(panelOptions.min)) : null;
         }
       }
 
@@ -460,7 +460,8 @@ coreModule.directive('grafanaGraph', function($rootScope, timeSrv) {
           show: panel.yaxes[0].show,
           index: 1,
           logBase: panel.yaxes[0].logBase || 1,
-          max: null
+          max: panel.yaxes[0].max ? _.toNumber(ctrl.expandTemplateVariable(panel.yaxes[0].max)) : null,
+          min: panel.yaxes[0].min ? _.toNumber(ctrl.expandTemplateVariable(panel.yaxes[0].min)) : null
         };
 
         options.yaxes.push(defaults);
@@ -471,6 +472,8 @@ coreModule.directive('grafanaGraph', function($rootScope, timeSrv) {
           secondY.show = panel.yaxes[1].show;
           secondY.logBase = panel.yaxes[1].logBase || 1;
           secondY.position = 'right';
+          secondY.max = panel.yaxes[0].max ? _.toNumber(ctrl.expandTemplateVariable(panel.yaxes[0].max)) : null;
+          secondY.min = panel.yaxes[0].min ? _.toNumber(ctrl.expandTemplateVariable(panel.yaxes[0].min)) : null;
           options.yaxes.push(secondY);
 
           applyLogScale(options.yaxes[1], data);
